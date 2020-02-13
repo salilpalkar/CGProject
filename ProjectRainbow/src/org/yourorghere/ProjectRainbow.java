@@ -18,7 +18,7 @@ import javax.media.opengl.glu.GLU;
  *
  * This version is equal to Brian Paul's version 1.2 1999/10/21
  */
-//adding sample update
+
 public class ProjectRainbow implements GLEventListener {
 
     public static void main(String[] args) {
