@@ -110,7 +110,7 @@ public class ProjectRainbow implements GLEventListener {
         gl.glColor3f(0.0f, 0.0f, 1.0f);
         
         for(int i=0;i<360;i++){
-            double theta = Math.toRadians(i);  
+            double theta = Math.toRadians(i);
             gl.glVertex2f(0.5f*(float)Math.sin(theta),0.5f*(float)Math.cos(theta));
         }
         
