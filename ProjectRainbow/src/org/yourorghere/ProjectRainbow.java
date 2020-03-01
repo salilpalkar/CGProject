@@ -17,7 +17,6 @@ import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 
-
 public class ProjectRainbow implements GLEventListener {
 
     public static void main(String[] args) throws IOException {
