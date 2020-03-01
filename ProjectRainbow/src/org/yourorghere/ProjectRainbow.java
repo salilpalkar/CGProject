@@ -1,9 +1,16 @@
 package org.yourorghere;
 
 import com.sun.opengl.util.Animator;
+import com.sun.opengl.util.texture.Texture;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
@@ -11,17 +18,9 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 
 
-
-/**
- * ProjectRainbow.java <BR>
- * author: Brian Paul (converted to Java by Ron Cemer and Sven Goethel) <P>
- *
- * This version is equal to Brian Paul's version 1.2 1999/10/21
- */
-
 public class ProjectRainbow implements GLEventListener {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Frame frame = new Frame("Simple JOGL Application");
         GLCanvas canvas = new GLCanvas();
 
@@ -29,6 +28,7 @@ public class ProjectRainbow implements GLEventListener {
         frame.add(canvas);
         frame.setSize(640, 480);
         final Animator animator = new Animator(canvas);
+        
         frame.addWindowListener(new WindowAdapter() {
 
             @Override
@@ -39,6 +39,7 @@ public class ProjectRainbow implements GLEventListener {
                 new Thread(new Runnable() {
 
                     public void run() {
+                        
                         animator.stop();
                         System.exit(0);
                     }
@@ -50,6 +51,7 @@ public class ProjectRainbow implements GLEventListener {
         frame.setVisible(true);
         animator.start();
     }
+
 
     public void init(GLAutoDrawable drawable) {
         // Use debug pipeline
@@ -64,49 +66,60 @@ public class ProjectRainbow implements GLEventListener {
         // Setup the drawing area and shading mode
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         gl.glShadeModel(GL.GL_SMOOTH); // try setting this to GL_FLAT and see what happens.
+        
     }
 
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
         GL gl = drawable.getGL();
         GLU glu = new GLU();
 
-        if (height <= 0) { // avoid a divide by zero error!
-        
-            height = 1;
-        }
-        final float h = (float) width / (float) height;
-        gl.glViewport(0, 0, width, height);
+        gl.glViewport(0, 0, 640, 480);
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(45.0f, h, 1.0, 20.0);
-        gl.glMatrixMode(GL.GL_MODELVIEW);
-        gl.glLoadIdentity();
+
+        glu.gluOrtho2D(0,640,0,480);
     }
     
-    private float x, y;
+    
+    private float x = -1.0f;
+    private float y = 0.5f;
     public void display(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
 
         // Clear the drawing area
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-        // Reset the current matrix to the "identity"
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
         gl.glLoadIdentity();
+        drawCircle(gl);
 
-        // Move the "drawing cursor" around
-        gl.glTranslatef(-1.5f, 0.0f, -6.0f);
-        
+        gl.glColor3f(1.0f, 1.0f, 1.0f );
         gl.glLineWidth(5.0f);
         gl.glBegin(GL.GL_LINES);
-            gl.glVertex2f(0.0f, 0.0f);
+            gl.glVertex2f(-1.0f, 0.5f);
             gl.glVertex2f(x,y);
         gl.glEnd();
-        gl.glFlush();
         
-        x += 0.005f;
-        y += 0.005f;
+        if(x<=0.0f)
+            x += 0.005f;
+
+       gl.glFlush();
+        
+    }
+    
+    private void drawCircle(GL gl){   
+        gl.glPointSize(3.0f);
+        gl.glBegin(GL.GL_POINTS);
+        gl.glColor3f(0.0f, 0.0f, 1.0f);
+        
+        for(int i=0;i<360;i++){
+            double theta = Math.toRadians(i);  
+            gl.glVertex2f(0.5f*(float)Math.sin(theta),0.5f*(float)Math.cos(theta));
+        }
+        
+        gl.glEnd();
     }
 
     public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChanged) {
     }
+    
 }
 
