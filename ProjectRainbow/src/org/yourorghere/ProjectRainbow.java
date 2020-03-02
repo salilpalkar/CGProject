@@ -80,25 +80,29 @@ public class ProjectRainbow implements GLEventListener {
     }
     
     
-    private float x = -1.0f;
-    private float y = 0.5f;
+//    private float x = -1.0f;
+//    private float y = 0.5f;
+    private int x = 10;
+    private int y = 300;
     public void display(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
 
         // Clear the drawing area
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-        gl.glLoadIdentity();
+//        gl.glLoadIdentity();
         drawCircle(gl);
 
         gl.glColor3f(1.0f, 1.0f, 1.0f );
         gl.glLineWidth(5.0f);
         gl.glBegin(GL.GL_LINES);
-            gl.glVertex2f(-1.0f, 0.5f);
-            gl.glVertex2f(x,y);
+//            gl.glVertex2f(-1.0f, 0.5f);
+//            gl.glVertex2f(x,y);
+            gl.glVertex2i(0, 300);
+            gl.glVertex2i(x,y);
         gl.glEnd();
         
-        if(x<=0.0f)
-            x += 0.005f;
+        if(x<=230)
+            x += 10;
 
        gl.glFlush();
         
@@ -109,9 +113,13 @@ public class ProjectRainbow implements GLEventListener {
         gl.glBegin(GL.GL_POINTS);
         gl.glColor3f(0.0f, 0.0f, 1.0f);
         
-        for(int i=0;i<360;i++){
+//        for(int i=0;i<360;i++){
+//            double theta = Math.toRadians(i);
+//            gl.glVertex2f(0.5f*(float)Math.sin(theta),0.5f*(float)Math.cos(theta));
+//        }
+            for(int i=0;i<360;i++){
             double theta = Math.toRadians(i);
-            gl.glVertex2f(0.5f*(float)Math.sin(theta),0.5f*(float)Math.cos(theta));
+            gl.glVertex2d(320+100*Math.sin(theta),240+100*Math.cos(theta));
         }
         
         gl.glEnd();
