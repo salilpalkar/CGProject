@@ -82,6 +82,7 @@ public class ProjectRainbow implements GLEventListener {
 
     private int x = 5;
     private int y = 300;
+    int a,b,a1,b1,a2,b2;
     public void display(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
 
@@ -91,16 +92,70 @@ public class ProjectRainbow implements GLEventListener {
 
         gl.glColor3f(1.0f, 1.0f, 1.0f );
         gl.glLineWidth(5.0f);
-        gl.glBegin(GL.GL_LINES);
-            gl.glVertex2i(0, 300);
-            gl.glVertex2i(x,y);
-        gl.glEnd();
-        
-        if(x<=236)
+        if(x<=236){
+            gl.glBegin(GL.GL_LINES);
+                gl.glVertex2i(0, 300);
+                gl.glVertex2i(x,y);
+            gl.glEnd();
             x += 1;
+            if(x==237)
+            {
+                a=x;b=y;
+            }
+            System.out.println(x);
+        }
+     //   if(x<=236)
+           // x += 1;
         else{
+            //gl.glLineWidth(1.0f);
             //white ray now touching the rain drop
+            if(a<=415){
+                
+                gl.glBegin(GL.GL_LINES);
+                gl.glVertex2i(0, 300);
+                gl.glVertex2i(x,y);
+                gl.glVertex2i(x,y);
+                gl.glVertex2i(a, b);
+                a+=2;b-=1;
+               // System.out.println("a="+a+" b="+b);
+                gl.glEnd();
+                if(a==415)
+                    a1=a;b1=b;
+            }
+            else{
+                if(a1>=285){
+                    gl.glBegin(GL.GL_LINES);
+                    gl.glVertex2i(0, 300);
+                    gl.glVertex2i(x,y);
+                    gl.glVertex2i(x,y);
+                    gl.glVertex2i(a, b);
+                    gl.glVertex2i(a, b);
+                    gl.glVertex2i(a1, b1);
+                    a1-=2;b1-=1;
+                    if(a1==283)
+                    {
+                        a2=a1;b2=b1;
+                    }
+                    System.out.println("a1="+a+" b1="+b);
+                    gl.glEnd();
+                }
+                else{
+                     gl.glBegin(GL.GL_LINES);
+                    gl.glVertex2i(0, 300);
+                    gl.glVertex2i(x,y);
+                    gl.glVertex2i(x,y);
+                    gl.glVertex2i(a, b);
+                    gl.glVertex2i(a, b);
+                    gl.glVertex2i(a1, b1);
+                    gl.glVertex2i(a1, b1);
+                    gl.glVertex2i(a2, b2);
+                    a2-=1;b2-=1;
+                    System.out.println("a1="+a1+" b1="+b1);
+                    gl.glEnd();
+                }
+            }
             
+                
             //Red ray
             
             //Orange ray
