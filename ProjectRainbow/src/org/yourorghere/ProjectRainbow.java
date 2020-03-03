@@ -19,6 +19,7 @@ import javax.media.opengl.glu.GLU;
 
 public class ProjectRainbow implements GLEventListener {
 
+    
     public static void main(String[] args) throws IOException {
         Frame frame = new Frame("Simple JOGL Application");
         GLCanvas canvas = new GLCanvas();
@@ -90,8 +91,9 @@ public class ProjectRainbow implements GLEventListener {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
         drawCircle(gl);
 
+        //horizontal line going till 236
         gl.glColor3f(1.0f, 1.0f, 1.0f );
-        gl.glLineWidth(5.0f);
+        gl.glLineWidth(6.0f);
         if(x<=236){
             gl.glBegin(GL.GL_LINES);
                 gl.glVertex2i(0, 300);
@@ -100,22 +102,18 @@ public class ProjectRainbow implements GLEventListener {
             x += 1;
             if(x==237)
             {
-                a=x;b=y;
+                a=x;
+                b=y;
             }
-            System.out.println(x);
+//            System.out.println(x);
         }
-     //   if(x<=236)
-           // x += 1;
         else{
-            //gl.glLineWidth(1.0f);
-            //white ray now touching the rain drop
             if(a<=415){
-                
+                gl.glColor3f(1.0f, 1.0f, 1.0f); 
                 gl.glBegin(GL.GL_LINES);
                 gl.glVertex2i(0, 300);
                 gl.glVertex2i(x,y);
-                gl.glVertex2i(x,y);
-                gl.glVertex2i(a, b);
+                colouring1(gl,x,y,a,b);
                 a+=2;b-=1;
                // System.out.println("a="+a+" b="+b);
                 gl.glEnd();
@@ -127,66 +125,108 @@ public class ProjectRainbow implements GLEventListener {
                     gl.glBegin(GL.GL_LINES);
                     gl.glVertex2i(0, 300);
                     gl.glVertex2i(x,y);
-                    gl.glVertex2i(x,y);
-                    gl.glVertex2i(a, b);
-                    gl.glVertex2i(a, b);
-                    gl.glVertex2i(a1, b1);
+                    colouring1(gl,x,y,a,b);
+                    colouring2(gl,a,b,a1,b1);
                     a1-=2;b1-=1;
                     if(a1==283)
                     {
                         a2=a1;b2=b1;
                     }
-                    System.out.println("a1="+a+" b1="+b);
+//                    System.out.println("a1="+a+" b1="+b);
                     gl.glEnd();
                 }
                 else{
-                     gl.glBegin(GL.GL_LINES);
+                    gl.glBegin(GL.GL_LINES);
                     gl.glVertex2i(0, 300);
                     gl.glVertex2i(x,y);
-                    gl.glVertex2i(x,y);
-                    gl.glVertex2i(a, b);
-                    gl.glVertex2i(a, b);
-                    gl.glVertex2i(a1, b1);
-                    gl.glVertex2i(a1, b1);
-                    gl.glVertex2i(a2, b2);
+                    colouring1(gl,x,y,a,b);
+                    colouring2(gl,a,b,a1,b1);                   
+                    colouring2(gl,a1,b1,a2,b2);
+//                    gl.glVertex2i(a1, b1);
+//                    gl.glVertex2i(a2, b2);
                     a2-=1;b2-=1;
                     System.out.println("a1="+a1+" b1="+b1);
                     gl.glEnd();
                 }
-            }
-            
-                
-            //Red ray
-            
-            //Orange ray
-            
-            //Yellow ray
-            
-            //Green ray
-            
-            //Blue ray
-            
-            //Indigo ray
-            
-            //Violet ray  
-            
+            }       
         }
-
-       gl.glFlush();
-        
+       gl.glFlush();  
     }
     
     private void drawCircle(GL gl){   
         gl.glPointSize(3.0f);
-        gl.glBegin(GL.GL_POINTS);
-        gl.glColor3f(0.0f, 0.0f, 1.0f);
-        
-            for(int i=0;i<360;i++){
+        gl.glBegin(GL.GL_TRIANGLE_FAN);
+        //color choices for raindrop circle
+//        gl.glColor3f(0.45f, 0.76f, 1.0f);
+        gl.glColor3f(0.22f, 0.5f, 1.0f);
+//        gl.glColor3f(0.52f, 0.80f, 1.0f);
+        for(int i=0;i<360;i++){
             double theta = Math.toRadians(i);
             gl.glVertex2d(320+100*Math.sin(theta),240+100*Math.cos(theta));
-        }
-        
+        } 
         gl.glEnd();
+    }
+    
+    public void colouring1(GL gl,int xx,int yy,int aa,int bb)
+    {
+        gl.glColor3f(1.0f, 0.0f, 0.0f);
+        gl.glVertex2i(xx,yy);
+        gl.glVertex2i(aa, bb+15);
+
+        gl.glColor3f(1.0f, 0.5f, 0.0f);
+        gl.glVertex2i(xx,yy);
+        gl.glVertex2i(aa, bb+10);
+
+        gl.glColor3f(1.0f, 1.0f, 0.0f);
+        gl.glVertex2i(xx,yy);
+        gl.glVertex2i(aa, bb+5);
+
+        gl.glColor3f(0.0f, 1.0f, 0.0f);
+        gl.glVertex2i(xx,yy);
+        gl.glVertex2i(aa, bb);
+
+        gl.glColor3f(0.0f, 0.0f, 1.0f);
+        gl.glVertex2i(xx,yy);
+        gl.glVertex2i(aa, bb-5);
+
+        gl.glColor3f(0.0f, 1.0f, 1.0f);
+        gl.glVertex2i(xx,yy);
+        gl.glVertex2i(aa, bb-10);
+
+        gl.glColor3f(1.0f, 0.0f, 1.0f);
+        gl.glVertex2i(xx,yy);
+        gl.glVertex2i(aa, bb-15);
+    }
+    
+    public void colouring2(GL gl,int aa,int bb,int aa1,int bb1)
+    {
+        gl.glColor3f(1.0f, 0.0f, 0.0f);
+        gl.glVertex2i(aa, bb+15);
+        gl.glVertex2i(aa1, bb1+15);
+
+        gl.glColor3f(1.0f, 0.5f, 0.0f);
+        gl.glVertex2i(aa, bb+10);
+        gl.glVertex2i(aa1, bb1+10);
+
+        gl.glColor3f(1.0f, 1.0f, 0.0f);
+        gl.glVertex2i(aa, bb+5);
+        gl.glVertex2i(aa1, bb1+5);
+
+        gl.glColor3f(0.0f, 1.0f, 0.0f);
+        gl.glVertex2i(aa, bb);
+        gl.glVertex2i(aa1, bb1);
+
+        gl.glColor3f(0.0f, 0.0f, 1.0f);
+        gl.glVertex2i(aa, bb-5);
+        gl.glVertex2i(aa1, bb1-5);
+
+        gl.glColor3f(0.0f, 1.0f, 1.0f);
+        gl.glVertex2i(aa, bb-10);
+        gl.glVertex2i(aa1, bb1-10);
+
+        gl.glColor3f(1.0f, 0.0f, 1.0f);
+        gl.glVertex2i(aa, bb-15);
+        gl.glVertex2i(aa1, bb1-15);
     }
 
     public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChanged) {
